@@ -7,7 +7,6 @@ import com.example.demo.respository.HotelRepository;
 import jakarta.transaction.Transactional;
 
 @Service
-@Transactional 
 public class HotelServiceImpl implements HotelService{
      
 	@Autowired

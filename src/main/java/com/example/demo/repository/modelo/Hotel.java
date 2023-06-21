@@ -13,7 +13,6 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 @Entity
-
 @Table(name="hotel")
 public class Hotel {
 	
@@ -27,7 +26,7 @@ public class Hotel {
 	@Column(name="hotel_direccion")
 	private String direccion;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "hotel",cascade = CascadeType.ALL)
 	private List<Habitacion> habitaciones;
 
 	//set y get

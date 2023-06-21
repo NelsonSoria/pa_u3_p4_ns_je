@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import com.example.demo.repository.modelo.Ciudadano;
 import com.example.demo.repository.modelo.Habitacion;
@@ -10,8 +11,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
-@Repository
-@Transactional 
+
+@Service
 public class HabitacionServiceImpl implements HabitacionService{
      
 	@PersistenceContext

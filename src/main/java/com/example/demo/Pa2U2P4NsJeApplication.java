@@ -1,30 +1,20 @@
 package com.example.demo;
 
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.example.demo.repository.modelo.Alumno;
-import com.example.demo.repository.modelo.Autor;
-import com.example.demo.repository.modelo.Libro;
-import com.example.demo.repository.modelo.Materia;
-import com.example.demo.repository.modelo.Matricula;
-import com.example.demo.service.AutorService;
-import com.example.demo.service.HabitacionService;
-import com.example.demo.service.HotelService;
-import com.example.demo.service.LibroService;
-import com.example.demo.service.MatriculaService;
+import com.example.demo.repository.modelo.Estudiante;
+import com.example.demo.service.EstudianteService;
 
 @SpringBootApplication
 public class Pa2U2P4NsJeApplication implements CommandLineRunner {
 
 	@Autowired
-	private MatriculaService matriculaService;
+	private EstudianteService estudianteService;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Pa2U2P4NsJeApplication.class, args);
@@ -32,23 +22,27 @@ public class Pa2U2P4NsJeApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-	  Alumno alum= new Alumno();
-	  alum.setNombre("Nelson");
+	  Estudiante es =new Estudiante() ;
 	  
-	  Materia mat1= new Materia();
-	  mat1.setNombre("PA2");
+	  es.setApellido("Espinosa");
+	  es.setNombre("JOEL");
+	  es.setCedula("216548");
+	  //this.estudianteService.guardar(es);
+
 	  
-	
-	  Matricula matri= new Matricula();
-	  matri.setFecha(LocalDateTime.now());
-	  matri.setNumero("001");
-	  matri.setAlumno(alum);
-	  matri.setMateria(mat1);
+	  Estudiante es3 = this.estudianteService.buscarPorApellido("Soria");
+	  System.out.println(es3);
+	  List<Estudiante> estuList = this.estudianteService.reportePorApellido("Espinosa");
 	  
-	  this.matriculaService.guardad(matri);
-		
-		
-		
+	  for(Estudiante e :estuList) {
+		  System.out.println(e);
+	  }
+	  Estudiante es2 = this.estudianteService.buscarPorApellidoYNombre("Espinosa","JOEL");
+	  System.out.println(es2);
+	  
+	  Estudiante es1 = this.estudianteService.buscarPorApellidoTyped("Soria");
+	  System.out.println(es1);
+	  
 	}
 
 }

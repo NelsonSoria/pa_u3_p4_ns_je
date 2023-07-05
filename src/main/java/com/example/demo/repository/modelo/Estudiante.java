@@ -56,6 +56,31 @@ public class Estudiante {
 
 	@Column(name = "estu_apellido") // le vas a vincular la columna estu-apellido con el atributo
 	private String apellido;
+	
+	@Column(name="estu_peso")
+	private Double peso;
+
+	@Override
+	public String toString() {
+		return "Estudiante [id=" + id + ", cedula=" + cedula + ", nombre=" + nombre + ", apellido=" + apellido
+				+ ", peso=" + peso + "]";
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getCedula() {
+		return cedula;
+	}
+
+	public void setCedula(String cedula) {
+		this.cedula = cedula;
+	}
 
 	public String getNombre() {
 		return nombre;
@@ -73,17 +98,14 @@ public class Estudiante {
 		this.apellido = apellido;
 	}
 
-	public String getCedula() {
-		return cedula;
+	public Double getPeso() {
+		return peso;
 	}
 
-	public void setCedula(String cedula) {
-		this.cedula = cedula;
+	public void setPeso(Double peso) {
+		this.peso = peso;
 	}
 
-	@Override
-	public String toString() {
-		return "Estudiante [nombre=" + nombre + ", apellido=" + apellido + ", cedula=" + cedula + "]";
-	}
+	
 
 }

@@ -36,4 +36,10 @@ public interface EstudianteRespository {
 	
 	//Criteria API Query
 	public Estudiante seleccionarPorApellidoCriteriaAPIQuery(String apellido);
+
+	public Estudiante seleccionarEstudianteDinamico(String nombre,String apellido,Double peso);
+
+	public int eliminarPorNombre(String nombre);
+
+	public int actualizarPorApellido(String nombre,String apellido);
 }

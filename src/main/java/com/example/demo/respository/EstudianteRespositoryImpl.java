@@ -150,4 +150,53 @@ public class EstudianteRespositoryImpl implements EstudianteRespository{
 		return myQueryFinal.getSingleResult();
 	}
 
+	@Override
+	public Estudiante seleccionarEstudianteDinamico(String nombre, String apellido, Double peso) {
+		CriteriaBuilder myBuilder = this.entityManager.getCriteriaBuilder();
+		CriteriaQuery<Estudiante> myCriteriAQuery= myBuilder.createQuery(Estudiante.class);
+		Root<Estudiante> miTablaFrom = myCriteriAQuery.from(Estudiante.class);
+		
+		//peso>100  e.nombre=? AND e.apelldio=?
+		//peso<=100 e.nombre=? or e.apellido=?
+		
+		//e.nombre=?
+		Predicate pNombre= myBuilder.equal(miTablaFrom.get("nombre"), nombre);
+		
+		//e.apellido=?
+		Predicate pApellido=myBuilder.equal(miTablaFrom.get("apellido"), apellido);
+		
+		Predicate predicadoFinal=null;
+		if(peso.compareTo(Double.valueOf(100))<=0) {
+			predicadoFinal= myBuilder.or(pNombre,pApellido);
+		}else {
+			predicadoFinal= myBuilder.and(pNombre,pApellido);
+		}
+		myCriteriAQuery.select(miTablaFrom).where(predicadoFinal);
+		
+		TypedQuery<Estudiante> myQueryFinal = this.entityManager.createQuery(myCriteriAQuery);
+		return myQueryFinal.getSingleResult();
+	}
+
+	@Override
+	public int eliminarPorNombre(String nombre) {
+		// TODO Auto-generated method stub
+		//DELETE FROM estudiante where estu_nombre=?
+		//DELETE FROM Estudiante e Where e.nombre=:datoNombre
+		Query miQuery = this.entityManager.createQuery("DELETE FROM Estudiante e Where e.nombre=:datoNombre");
+		miQuery.setParameter("datoNombre", nombre);
+		
+		//numero de registros afectados
+		return miQuery.executeUpdate();
+	}
+
+	@Override
+	public int actualizarPorApellido(String nombre,String apellido) {
+		//UPDATE estudiante SET estu_nombre=? WHERE estu_apellldo=?
+		//UPDATE Estudiante e SET e.nombre=:datoNombre WHERE e.apellido=:datoApellido
+		Query miQuery = this.entityManager.createQuery("UPDATE Estudiante e SET e.nombre=:datoNombre WHERE e.apellido=:datoApellido");
+		miQuery.setParameter("datoNombre",nombre);
+		miQuery.setParameter("datoApellido", apellido);
+	    return	miQuery.executeUpdate();
+	}
+
 }

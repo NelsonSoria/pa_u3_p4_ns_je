@@ -98,4 +98,23 @@ public class EstudianteServiceImpl implements EstudianteService{
 		return this.estudianteRespository.seleccionarPorNombreNativeQueryNamed(nombre);
 	}
 
+	@Override
+	public Estudiante buscarEstudianteDinamico(String nombre, String apellido, Double peso) {
+		// TODO Auto-generated method stub
+		return this.estudianteRespository.seleccionarEstudianteDinamico(nombre, apellido, peso)
+				;
+	}
+
+	@Override
+	public int borrarPorNombre(String nombre) {
+		// TODO Auto-generated method stub
+		return this.estudianteRespository.eliminarPorNombre(nombre);
+	}
+
+	@Override
+	public int actualizarPorApellido(String nombre, String apellido) {
+		// TODO Auto-generated method stub
+		return this.estudianteRespository.actualizarPorApellido(nombre, apellido);
+	}
+
 }

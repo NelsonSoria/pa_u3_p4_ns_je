@@ -41,4 +41,11 @@ public class HotelRepositoryImpl implements HotelRepository{
 		
 	}
 
+	@Override
+	public Hotel seleccionarPorNumero(Integer n) {
+		Hotel h=this.entityManager.find(Hotel.class, n);
+	    h.getHabitaciones().size();
+		return h;
+	}
+
 }

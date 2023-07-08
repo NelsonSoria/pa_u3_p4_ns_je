@@ -36,4 +36,10 @@ public class HotelServiceImpl implements HotelService{
 		
 	}
 
+	@Override
+	public Hotel cantidad(Integer n) {
+		// TODO Auto-generated method stub
+		return this.hotelRepository.seleccionarPorNumero(n);
+	}
+
 }

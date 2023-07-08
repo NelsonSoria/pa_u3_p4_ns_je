@@ -9,5 +9,7 @@ public interface HabitacionRepository {
 	public void eliminar(Integer id);
 	public Habitacion seleccionarPorID(Integer id);
 	public void actualizar(Habitacion habitacion);
+	
+	
 
 }

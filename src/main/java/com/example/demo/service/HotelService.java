@@ -8,5 +8,5 @@ public interface HotelService {
 	public void borrar(Integer id);
 	public Hotel buscarPorID(Integer id);
 	public void actualizar(Hotel hotel);
-
+	public Hotel cantidad(Integer n);
 }

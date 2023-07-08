@@ -8,5 +8,7 @@ public interface HotelRepository {
 	public void eliminar(Integer id);
 	public Hotel seleccionarPorID(Integer id);
 	public void actualizar(Hotel hotel);
+	
+	public Hotel seleccionarPorNumero(Integer n);
 
 }

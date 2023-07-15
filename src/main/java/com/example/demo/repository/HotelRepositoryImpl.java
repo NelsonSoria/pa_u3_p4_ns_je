@@ -69,9 +69,8 @@ public class HotelRepositoryImpl implements HotelRepository {
 
 	@Override
 	public List<Hotel> seleccionarOuterRightJoin() {
-		TypedQuery<Hotel> myQuery = this.entityManager.createQuery("SELECT h FROM Hotel h RIGHT JOIN h.habitaciones ha",
+		TypedQuery<Hotel> myQuery = this.entityManager.createQuery("SELECT h FROM Hotel h RIGHT JOIN h.habitaciones ha ",
 				Hotel.class);
-
 		return myQuery.getResultList();
 	}
 
@@ -104,6 +103,13 @@ public class HotelRepositoryImpl implements HotelRepository {
 		TypedQuery<Hotel> myQuery = this.entityManager.createQuery("SELECT h FROM Hotel h, Habitacion ha WHERE h=ha.hotel ",
 				Hotel.class);
 
+		return myQuery.getResultList();
+	}
+
+	@Override
+	public List<Hotel> seleccionarFetchJoin() {
+		TypedQuery<Hotel> myQuery = this.entityManager.createQuery("SELECT h FROM Hotel h JOIN FETCH h.habitaciones ha",
+				Hotel.class);
 		return myQuery.getResultList();
 	}
 

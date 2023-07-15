@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,40 +32,46 @@ public class PaU3P4NsJeApplication implements CommandLineRunner {
 		List<Hotel> myLista = this.hotelService.buscarInnerJoin();
 
 		for (Hotel h : myLista) {
-			System.out.println(h.getHabitaciones());
-		}
-
-		List<Hotel> myLista2 = this.hotelService.buscarOuterRightJoin();
-
-		for (Hotel h : myLista2) {
-			System.out.println(h);
-		}
-		List<Hotel> myLista3 = this.hotelService.buscarOuterLeftJoin();
-
-		for (Hotel h : myLista3) {
-			System.out.println(h);
-		}
-		List<Habitacion> myLista4 = this.hotelService.buscarHabitacionOuterLeftJoin();
-
-		for (Habitacion h : myLista4) {
-			System.out.println(h);
-		}
-
-		List<Hotel> myLista5 = this.hotelService.buscarOuterFullJoin();
-
-		for (Hotel h : myLista5) {
-			if(h==null) {
-				System.err.println("NO existe aun un hotel");
-			}else {
-				System.out.println(h.getNombre());
+			System.out.println(h.getNombre());
+			System.out.println("Tiene las siguientes habiataciones");
+			
+			for(Habitacion ha:h.getHabitaciones()) {
+				System.out.println(ha.getNumero());
 			}
 			
 		}
-		List<Hotel> myLista6 = this.hotelService.buscarJoinWhere();
+		System.out.println("SQL Join Fetch");
+		List<Hotel> myListaF = this.hotelService.buscarFetchJoin();
 
-		for (Hotel h : myLista6) {
-			System.out.println(h);
+		for (Hotel h : myListaF) {
+			System.out.println(h.getNombre());
+			System.out.println("FETCH Tiene las siguientes habiataciones");
+			
+			for(Habitacion ha:h.getHabitaciones()) {
+				System.out.println(ha.getNumero());
+			}
+			
 		}
+		
+		Hotel h1=new Hotel();
+		h1.setNombre("ECU2");
+		h1.setDireccion("Cuenca3");
+		
+		Habitacion ha=new Habitacion();
+		ha.setNumero("C02");
+		ha.setValor(new BigDecimal(56));
+		ha.setHotel(h1);
+	    
+		List<Habitacion> lista = new ArrayList<>();
+		lista.add(ha);
+		
+		h1.setHabitaciones(lista);
+		
+		this.hotelService.guardar(h1);
+		
+		
+
+		
 	}
 
 }

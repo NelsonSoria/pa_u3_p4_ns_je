@@ -15,6 +15,8 @@ public class HabitacionServiceImpl implements HabitacionService{
 	
 	@Override
 	public void guardar(Habitacion habitacion) {
+		
+		
 		this.habitacionRepository.insertar(habitacion);
 		
 	}

@@ -1,11 +1,15 @@
 package com.example.demo.repository;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
+import com.example.demo.repository.modelo.Estudiante;
 import com.example.demo.repository.modelo.Matricula;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
 @Repository
@@ -39,6 +43,12 @@ public class MatriculaRepositoryImpl implements IMatriculaRepository{
 		// TODO Auto-generated method stub
 		this.entityManager.merge(matricula);
 		
+	}
+
+	@Override
+	public List<Matricula> seleccionarTodos() {
+		TypedQuery<Matricula> myQuery = this.entityManager.createQuery("SELECT m FROM Matricula m ", Matricula.class);
+		return myQuery.getResultList();
 	}
 
 	

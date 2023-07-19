@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -29,24 +30,33 @@ public class MatriculaServiceImpl implements IMatriculaService{
 
 	@Override
 	public void matricular(String cedulaEstudiante, List<String> codigosMateria) {
-		
+
 		Estudiante miEstudiante =this.iestudianteRepository.seleccionarPorCedula(cedulaEstudiante);
-		Matricula miMatricula=new Matricula();
-		miMatricula.setFecha(LocalDate.now());
-		
-		Random r = new Random();
-		Integer numRandom = r.nextInt(100)+1;
-		miMatricula.setNumero(numRandom.toString());
-		miMatricula.setValor(BigDecimal.valueOf(100));
-		miMatricula.setEstudiante(miEstudiante);
-		
+
 		for(String codigo:codigosMateria) {
-			Materia miMateria =this.iMateriaRepository.seleccionarPorCodigo(codigo);
+			Materia miMateria =new Materia();
+			miMateria =this.iMateriaRepository.seleccionarPorCodigo(codigo);
+			Matricula miMatricula=new Matricula();
+			miMatricula.setFecha(LocalDate.now());
+			Random r = new Random();
+			Integer numRandom = r.nextInt(100)+1;
+			miMatricula.setNumero(numRandom.toString());
+			miMatricula.setValor(BigDecimal.valueOf(100));
+			miMatricula.setEstudiante(miEstudiante);
 			miMatricula.setMateria(miMateria);
-			
 			this.iMatriculaRepository.insertar(miMatricula);
 		}
-		
+	  }
+
+	@Override
+	public List<Matricula> reporteTodos() {
+		// TODO Auto-generated method stub
+		return this.iMatriculaRepository.seleccionarTodos();
 	}
 
-}
+	}
+		
+	
+
+
+

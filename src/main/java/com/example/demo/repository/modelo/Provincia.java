@@ -13,7 +13,7 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 @Entity
-@Table
+@Table(name="provincia")
 public class Provincia {
 	@GeneratedValue(generator = "seq_provincia",strategy = GenerationType.SEQUENCE)
 	@SequenceGenerator(name="seq_provincia",sequenceName ="seq_provincia",allocationSize = 1 )

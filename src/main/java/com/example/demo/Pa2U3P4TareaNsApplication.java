@@ -42,14 +42,37 @@ public class Pa2U3P4TareaNsApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		System.out.println("Main: "+ TransactionSynchronizationManager.isActualTransactionActive());
 		
-		Propietario p1= new Propietario();
-		p1.setApellido("Espinosa");
-		p1.setCedula("415465");
-		p1.setNombre("Joel");
-		this.iPropietarioService.guardar(p1);
+	   /* Propietario p1= new Propietario();
+		p1.setApellido("Soria");
+		p1.setCedula("1750932893");
+		p1.setNombre("Nelson");
 		
+		Propietario p2= new Propietario();
+		p2.setApellido("Paredes");
+		p2.setCedula("158904344");
+		p2.setNombre("Patricio");
+
+		CuentaBancaria cta1=new CuentaBancaria();
+		cta1.setNumero("001");
+		cta1.setSaldo(new BigDecimal(50));
+		cta1.setTipo('A');
+		cta1.setPropietario(p1);
+
+		CuentaBancaria cta2=new CuentaBancaria();
+		cta2.setNumero("002");
+		cta2.setSaldo(new BigDecimal(70));
+		cta2.setTipo('A');
+		cta2.setPropietario(p2);
 		
+	
+		this.bancariaService.guardar(cta1);
+		this.bancariaService.guardar(cta2);*/
 		
+		this.iTransferenciaService.realizarTransferencia("001", "002", new BigDecimal(300));
+		List<Transferencia> trans=this.iTransferenciaService.reporte();
+		for(Transferencia t:trans) {
+			System.err.println(t);
+		}
 		
 	}
 

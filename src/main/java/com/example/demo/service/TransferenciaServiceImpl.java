@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,6 +12,9 @@ import com.example.demo.repository.ICuentaBancariaRepository;
 import com.example.demo.repository.ITransferenciaRepository;
 import com.example.demo.repository.modelo.CuentaBancaria;
 import com.example.demo.repository.modelo.Transferencia;
+
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 
 @Service
 public class TransferenciaServiceImpl implements ITransferenciaService{
@@ -52,21 +56,14 @@ public class TransferenciaServiceImpl implements ITransferenciaService{
 	}
 
 	@Override
+	@Transactional(value = TxType.REQUIRES_NEW)
 	public void realizarTransferencia(String numeroCtaOrigen, String numeroCtaDestino, BigDecimal monto) {
 		CuentaBancaria ctaOrigen=this.bancariaRepository.seleccionarPorNumero(numeroCtaOrigen);
-		if(ctaOrigen==null) {
-			System.err.println("La Cuenta Origen no exite");
-			return;
-		}
 		CuentaBancaria ctaDestino=this.bancariaRepository.seleccionarPorNumero(numeroCtaDestino);
-		if(ctaDestino==null) {
-			System.err.println("La Cuenta Destino no exite");
-			return;
-		}
+		
 		BigDecimal saldoOrigen=ctaOrigen.getSaldo();
 		BigDecimal saldoDestino=ctaDestino.getSaldo();
 		
-		if(monto.compareTo(saldoOrigen)<=0) {
 			ctaOrigen.setSaldo(saldoOrigen.subtract(monto));
 			ctaDestino.setSaldo(saldoDestino.add(monto));
 			this.bancariaRepository.actualizar(ctaOrigen);
@@ -79,15 +76,13 @@ public class TransferenciaServiceImpl implements ITransferenciaService{
 			miTransferencia.setCuentaDestino(ctaDestino);
 			
 			this.iTransferenciaRepository.insertar(miTransferencia);
+			BigDecimal saldo=ctaOrigen.getSaldo();
 			
-		}else{
-			System.err.println("Saldo Insuficiente");
-			return;
-		}
-		
-		
-		
-		
+			if(saldo.compareTo(new BigDecimal(0))<0) {
+				throw new RuntimeException();
+				
+			}
+			
 		
 		
 		

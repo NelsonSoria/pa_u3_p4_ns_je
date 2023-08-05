@@ -1,14 +1,19 @@
 package com.example.demo;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
+import com.example.demo.funcional.Main;
 import com.example.demo.repository.modelo.CuentaBancaria;
 import com.example.demo.repository.modelo.Factura;
 import com.example.demo.repository.modelo.Persona;
@@ -23,7 +28,8 @@ import com.example.demo.service.PersonaService;
 
 @SpringBootApplication
 public class Pa2U3P4TareaNsApplication implements CommandLineRunner{
-	
+	private static final Logger LOG = LoggerFactory.getLogger(Pa2U3P4TareaNsApplication.class);
+
 	@Autowired
 	private ICuentaBancariaService bancariaService;
 	
@@ -40,39 +46,64 @@ public class Pa2U3P4TareaNsApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println("Main: "+ TransactionSynchronizationManager.isActualTransactionActive());
 		
-	   /* Propietario p1= new Propietario();
-		p1.setApellido("Soria");
-		p1.setCedula("1750932893");
-		p1.setNombre("Nelson");
+		//Imprime el nombre del hilo con el que se ejecuta mi propgrama
+		LOG.info("Tiempo transcurrido: " + Thread.currentThread().getName());	
+	/*	long tiempoInicial = System.currentTimeMillis();
+		for(int i=0;i<30;i++) {
+			CuentaBancaria cta1=new CuentaBancaria();
+			cta1.setNumero(String.valueOf(i));
+			cta1.setSaldo(new BigDecimal(50));
+			cta1.setTipo('A');
+			this.bancariaService.guardar(cta1);
+			
+		}
+		long tiempoFinal = System.currentTimeMillis();
+		long tiempoTranscurrido = (tiempoFinal-tiempoInicial)/1000;
+		LOG.info("Tiempo transcurrido: " + tiempoTranscurrido);
+		LOG.info("Tiempo transcurrido: " + (tiempoFinal-tiempoInicial));
+	*/
+	/*	long tiempoInicial = System.currentTimeMillis();
+		List<CuentaBancaria> lista = new ArrayList<>();
+		for(int i=0;i<100;i++) {
+			CuentaBancaria cta1=new CuentaBancaria();
+			cta1.setNumero(String.valueOf(i));
+			cta1.setSaldo(new BigDecimal(50));
+			cta1.setTipo('A');
+			lista.add(cta1);
+		}
 		
-		Propietario p2= new Propietario();
-		p2.setApellido("Paredes");
-		p2.setCedula("158904344");
-		p2.setNombre("Patricio");
-
-		CuentaBancaria cta1=new CuentaBancaria();
-		cta1.setNumero("001");
-		cta1.setSaldo(new BigDecimal(50));
-		cta1.setTipo('A');
-		cta1.setPropietario(p1);
-
-		CuentaBancaria cta2=new CuentaBancaria();
-		cta2.setNumero("002");
-		cta2.setSaldo(new BigDecimal(70));
-		cta2.setTipo('A');
-		cta2.setPropietario(p2);
+		//lista.stream().forEach(cta -> this.bancariaService.guardar(cta));
+		lista.parallelStream().forEach(cta -> this.bancariaService.guardar(cta));
+		
+		long tiempoFinal = System.currentTimeMillis();
+		long tiempoTranscurrido = (tiempoFinal-tiempoInicial)/1000;
+		LOG.info("Tiempo transcurrido: " + tiempoTranscurrido);
+		LOG.info("Tiempo transcurrido: " + (tiempoFinal-tiempoInicial));
+		
+		*/
+		
+		long tiempoInicial = System.currentTimeMillis();
+		List<CuentaBancaria> lista = new ArrayList<>();
+		for(int i=0;i<100;i++) {
+			CuentaBancaria cta1=new CuentaBancaria();
+			cta1.setNumero(String.valueOf(i));
+			cta1.setSaldo(new BigDecimal(50));
+			cta1.setTipo('A');
+			lista.add(cta1);
+		}
+		
+		//lista.stream().forEach(cta -> this.bancariaService.guardar(cta));
+		Stream <String> listaCambiada = lista.parallelStream().map(cta -> this.bancariaService.guardar2(cta));;	
+		LOG.info("Se guardaron las siguientes cuentas: ");
+		listaCambiada.forEach(cadena -> LOG.info(cadena));
+		long tiempoFinal = System.currentTimeMillis();
+		long tiempoTranscurrido = (tiempoFinal-tiempoInicial)/1000;
+		LOG.info("Tiempo transcurrido: " + tiempoTranscurrido);
+		LOG.info("Tiempo transcurrido: " + (tiempoFinal-tiempoInicial));
+		
 		
 	
-		this.bancariaService.guardar(cta1);
-		this.bancariaService.guardar(cta2);*/
-		
-		this.iTransferenciaService.realizarTransferencia("001", "002", new BigDecimal(300));
-		List<Transferencia> trans=this.iTransferenciaService.reporte();
-		for(Transferencia t:trans) {
-			System.err.println(t);
-		}
 		
 	}
 

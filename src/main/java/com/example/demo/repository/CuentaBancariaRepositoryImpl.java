@@ -1,8 +1,11 @@
 package com.example.demo.repository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.example.demo.funcional.Main;
 import com.example.demo.repository.modelo.CuentaBancaria;
 
 import jakarta.persistence.EntityManager;
@@ -15,12 +18,15 @@ import jakarta.transaction.Transactional.TxType;
 @Transactional
 public class CuentaBancariaRepositoryImpl implements ICuentaBancariaRepository{
 
+	private static final Logger LOG = LoggerFactory.getLogger(CuentaBancariaRepositoryImpl.class);
+
 	@PersistenceContext
 	private EntityManager entityManager;
 	
 	
 	@Override
 	public void insertar(CuentaBancaria CuentaBancaria) {
+		LOG.info("Hilo Repository" + Thread.currentThread().getName());
 		this.entityManager.persist(CuentaBancaria);
 		
 	}

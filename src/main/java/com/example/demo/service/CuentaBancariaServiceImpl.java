@@ -1,10 +1,12 @@
 package com.example.demo.service;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.funcional.Main;
@@ -34,6 +36,8 @@ public class CuentaBancariaServiceImpl implements ICuentaBancariaService{
 	}
 	@Override
 	public String guardar2(CuentaBancaria cuentaBancaria) {
+	
+		
 		LOG.info("Hilo Service. " + Thread.currentThread().getName());
 		// Sumar restar ,ultiplicar: logica que demora 1 segundo
 		try {
@@ -50,6 +54,38 @@ public class CuentaBancariaServiceImpl implements ICuentaBancariaService{
 		this.bancariaRepository.eliminar(id);
 		
 	}
+	@Override
+	@Async
+	public void guardarAsincrono(CuentaBancaria cuentaBancaria) {
+		// TODO Auto-generated method stub
+		LOG.info("Hilo Service. " + Thread.currentThread().getName());
+		// Sumar restar ,ultiplicar: logica que demora 1 segundo
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.bancariaRepository.insertar(cuentaBancaria);
+		
+	}
+	@Override
+	@Async
+	public CompletableFuture<String> guardarAsincrono2(CuentaBancaria cuentaBancaria) {
+		
+		LOG.info("Hilo Service. " + Thread.currentThread().getName());
+		// Sumar restar ,ultiplicar: logica que demora 1 segundo
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.bancariaRepository.insertar(cuentaBancaria);
+		
+		return CompletableFuture.completedFuture(cuentaBancaria.getNumero());
+	}
+
 
 	@Override
 	public CuentaBancaria buscarPorId(Integer id) {
@@ -68,7 +104,5 @@ public class CuentaBancariaServiceImpl implements ICuentaBancariaService{
 		// TODO Auto-generated method stub
 		return this.bancariaRepository.seleccionarPorNumero(numeroCuenta);
 	}
-
 	
-
 }
